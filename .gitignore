@@ -1,0 +1,91 @@
+# =========================
+# Node / pnpm
+# =========================
+node_modules/
+.pnpm-store/
+.pnpm-debug.log
+pnpm-lock.yaml
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Environment variables
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Build outputs
+# =========================
+dist/
+build/
+.out/
+.next/
+.vite/
+.cache/
+
+# Vite specific
+apps/web/dist/
+apps/web/.vite/
+
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# JetBrains
+.idea/
+
+# =========================
+# Coverage / Testing
+# =========================
+coverage/
+.nyc_output/
+
+# =========================
+# MongoDB (local dev)
+# =========================
+data/
+*.db
+*.sqlite
+
+# =========================
+# Misc
+# =========================
+tmp/
+temp/
+
+# =========================
+# TypeScript (if added later)
+# =========================
+*.tsbuildinfo
+
+# =========================
+# Docker (if you add later)
+# =========================
+docker-compose.override.yml
+
+# =========================
+# Optional: Ignore frontend env builds
+# =========================
+apps/web/.env.local
+apps/web/.env.development.local
+apps/web/.env.production.local
+
+# =========================
+# Optional: Ignore backend runtime files
+# =========================
+apps/server/uploads/
+apps/server/tmp/

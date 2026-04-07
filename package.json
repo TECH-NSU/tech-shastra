@@ -1,0 +1,14 @@
+{
+	"name": "techshastra",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "pnpm -r run dev",
+		"build": "pnpm -r run build"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.25.0"
+}
