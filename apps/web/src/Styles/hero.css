@@ -1,6 +1,18 @@
 body{
   margin: 0;
   padding: 0;
+   scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  overflow-X:hidden;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scroll-behavior: smooth;
+  
 }
 
 
@@ -16,7 +28,7 @@ body{
 .hero-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 160vh;
   overflow: hidden;
 
   background: url("/bg-texture.webp") center/cover no-repeat;
@@ -55,11 +67,14 @@ body{
   z-index: 3;
 }
 
+
+
 .planets-texture{
   position: absolute;
   inset: 0;
   background: url("/planets-texture.webp") center/cover no-repeat;
-
+   
+  z-index: 2;
 }
 
 
@@ -82,7 +97,7 @@ body{
 
 .hero-container h1 {
   position: absolute;
-  top: 40%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 3.4rem;
@@ -126,6 +141,175 @@ body{
 
 .explosion-left, .explosion-right {
   animation: float 20s linear infinite;
+}
+
+
+.hero-about {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 120%;
+  height: 100vh;
+  background:url("/ash-bottom.webp") no-repeat;
+  background-size: contain;
+  margin-top: -30vh; 
+  margin-right: 3%;
+ 
+  /* overlaps with the hero section */
+  z-index: 3;
+  overflow: hidden;
+}
+
+.planets-texture,
+.hero-video,
+.blue,
+.red,
+.explosion-left,
+.explosion-right {
+  height: 100vh; /* sticks to original screen height */
+}
+
+.surface-texture {
+  margin-top: 85vh; /* overlaps with the hero section */
+  position: relative;
+  width: 100%;
+   height: 70vh;
+  inset: 0;
+  background: url("/surface-texture.webp") center/cover no-repeat;
+  z-index: 2;
+}
+
+
+.heroes-container{
+  display: flex;
+  position:absolute;
+  margin-top: 88vh;
+  margin-left: 15%;
+  /* overlaps with the hero section */
+  width:70%;
+  height:40%;
+  
+  z-index: 3;
+}
+
+
+.hero-image1{
+  width: 20%;
+  height: 100%;
+  margin-top: 3%;
+  margin-left: 10%;
+  background: url("/hero-1.webp") center/cover no-repeat;
+}
+
+.hero-image2{
+  position: absolute;
+  display: flex;
+  width: 25%;
+  height: 100%;
+  margin-top: 1%;
+ margin-left: 25%;
+
+  background: url("/hero-2.webp") center/cover no-repeat;
+}
+
+.hero-image3{
+  position: absolute;
+  width: 21%;
+  height: 100%;
+  margin-left: 45%;
+  margin-top: 4%;
+  background: url("/hero-3.webp") center/cover no-repeat;
+}
+
+.hero-image4{
+  position: absolute;
+   margin-left: 63%;
+  width: 25%;
+  margin-top: 5%;
+  height: 100%;
+  background: url("/hero-4.webp") center/cover no-repeat;
+}
+@keyframes breathe1 {
+  0%   { transform: scale(1) translateY(0px); }
+  50%  { transform: scale(1.02) translateY(-2px); }
+  100% { transform: scale(1) translateY(0px); }
+}
+
+@keyframes breathe2 {
+  0%   { transform: scale(1) translateY(0px); }
+  50%  { transform: scale(1.025) translateY(-3px); }
+  100% { transform: scale(1) translateY(0px); }
+}
+
+@keyframes breathe3 {
+  0%   { transform: scale(1) translateY(0px); }
+  50%  { transform: scale(1.018) translateY(-1.5px); }
+  100% { transform: scale(1) translateY(0px); }
+}
+
+@keyframes breathe4 {
+  0%   { transform: scale(1) translateY(0px); }
+  50%  { transform: scale(1.03) translateY(-2.5px); }
+  100% { transform: scale(1) translateY(0px); }
+}
+
+.hero-image1 {
+  animation: breathe1 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.hero-image2 {
+  animation: breathe2 3.2s cubic-bezier(0.4, 0, 0.6, 1) infinite; /* slightly longer */
+}
+
+.hero-image3 {
+  animation: breathe3 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite; /* slightly shorter */
+}
+
+.hero-image4 {
+  animation: breathe4 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+
+
+.techshastra-about{
+  position: relative;
+  margin-top: 30vh;
+  width:100%;
+  height: 70vh;
+  background:
+  url("/about-bg.webp") center/cover no-repeat;
+ z-index: 5;
+}
+
+.techshastra-about h1{
+  position: relative;
+  top: 10%;
+  left: 81%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: 'Heading-font', sans-serif;
+  z-index: 6;
+  color: white;
+}
+
+.techshastra-about p{
+  position: relative;
+  top: 25%;
+  left: 73%;
+  transform: translate(-50%, -50%);
+  font-size: 1rem;
+  font-family:  sans-serif;
+  z-index: 1;
+  color: white;
+  line-height: 1.6;
+}
+.metors{
+  margin-top: 30vh;
+  position: absolute;
+  inset: 0;
+  background: url("/meteors.webp") center/cover no-repeat;
+  z-index: 6;
 }
 
 
