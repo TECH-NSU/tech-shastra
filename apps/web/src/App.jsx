@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 // Pages
 import Hero from "./Pages/hero";
@@ -12,7 +12,6 @@ function App() {
       <Routes>
         {/* Home Page */}
         <Route path="/" element={<Hero />} />
-
       </Routes>
     </Router>
   );
