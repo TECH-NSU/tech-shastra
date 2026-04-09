@@ -279,6 +279,9 @@ html {
   background:
   url("/about-bg.webp") center/cover no-repeat;
  z-index: 5;
+
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 }
 
 .techshastra-about h1{
@@ -309,7 +312,64 @@ html {
   position: absolute;
   inset: 0;
   background: url("/meteors.webp") center/cover no-repeat;
-  z-index: 6;
+  z-index: 6
 }
 
 
+.event-details{
+  position: absolute;
+  
+  width:100%;
+  margin-top: -70vh;
+  height: 70vh;
+  background:
+  url("/white-fog.webp") center/cover no-repeat;
+  
+ z-index: 3;
+  -webkit-mask-image: linear-gradient(to top, black 50%, transparent 100%);
+  mask-image: linear-gradient(to top, black 50%, transparent 100%);
+}
+
+.bg-video{
+  margin:0%;
+  padding:0%;
+  position: relative;
+  inset: 0;
+  width:80%;
+  border-radius: 20px;
+  height: 80vh;
+  margin-bottom: 10vh;
+  margin-left: 10%;
+  object-fit: cover;
+ 
+ 
+  
+
+  z-index: 1;
+}
+
+.heading  {
+  position: absolute;
+  margin-top: 210vh;
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: 'Heading-font', sans-serif;
+  z-index: 3;
+  color: rgb(222, 217, 217);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.event-description{
+  position: absolute;
+  margin-top: 210vh;
+  font-size: 1rem;
+  font-weight: normal;
+  font-family:  sans-serif;
+  z-index: 3;
+  color: rgb(91, 87, 87);
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
