@@ -1,5 +1,4 @@
 pnpm prettier-lint
-pnpm go-fmt
 
 
 git add .
