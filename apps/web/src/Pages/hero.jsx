@@ -9,7 +9,7 @@ export default function Hero() {
     `Different domains, endless possibilities.
 Learn, build, and innovate.
 Compete with the best minds.
-Discover your true potential.`,
+Discover your true potential.`
   );
 
   const [heading, setHeading] = useState("Explore Domains");
