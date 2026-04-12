@@ -4,10 +4,377 @@ on:
   pull_request:
     branches: ["main", "prod", "master"]
 
+  push:
+    branches: ["main", "prod", "master"]
 
 env:
-GO_VERSION: "1.24.x"
-NODE_VERSION: "22"
+  GO_VERSION: "1.24.x"
+  NODE_VERSION: "22"
 
 jobs:
+  # Go Backend Test Job
+  go-tests:
+    name: Go Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: mysecretpassword
+          POSTGRES_DB: techshastra
+        options: >-
+          --health-cmd "pg_isready -U postgres -d techshastra"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5434:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: apps/server/go.sum
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('apps/server/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Download dependencies
+        working-directory: apps/server
+        run: go mod download
+
+      - name: Install gotestsum
+        run: go install gotest.tools/gotestsum@latest
+
+      - name: Run Go unit tests with gotestsum (race + coverage)
+        working-directory: apps/server
+        env:
+          DATABASE_URL: postgres://postgres:mysecretpassword@postgres:5434/techshastra
+          CGO_ENABLED: 1
+        run: |
+          go clean -testcache
+
+          gotestsum --format=short-verbose \
+            -- -race -count=1 -p=1 -coverprofile=coverage.out -covermode=atomic ./tests/...
+
+          gotestsum --format=short-verbose \
+            -- -race -count=1 -coverprofile=coverage-internal.out -covermode=atomic ./internal/...
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        with:
+          files: |
+            apps/server/coverage.out
+            apps/server/coverage-internal.out
+          flags: unittests
+          name: go-coverage
+          fail_ci_if_error: false
+
+  go-lint:
+    name: Go Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: apps/server/go.sum
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('apps/server/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          working-directory: apps/server
+          args: --timeout=5m
+
+  # SQLC Code Generation Validation
+  sqlc-validate:
+    name: SQLC Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: apps/server/go.sum
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('apps/server/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Install sqlc
+        run: go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+
+      - name: Generate SQLC code
+        working-directory: apps/server
+        run: sqlc generate
+
+      - name: Check for uncommitted changes
+        working-directory: apps/server
+        run: |
+          if [ -n "$(git status --porcelain internal/db/sqlc)" ]; then
+            echo "Error: SQLC generated code is out of sync. Please run 'sqlc generate' and commit the changes."
+            git diff internal/db/sqlc
+            exit 1
+          fi
+
+  # Swagger Documentation Validation
+  swagger-validate:
+    name: Swagger Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ---- Go setup (includes Go module + build cache) ----
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: apps/server/go.sum
+
+      # ---- pnpm + Node setup (same pattern as frontend) ----
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('apps/server/pnpm-lock.yaml', 'apps/server/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install Node dependencies
+        working-directory: apps/server
+        run: pnpm install --frozen-lockfile
+
+      # ---- Swagger generation ----
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
+
+      - name: Generate Swagger docs
+        working-directory: apps/server
+        run: |
+          swag init \
+            -o ./swagger \
+            --parseDependency \
+            --parseInternal \
+            -g cmd/api-server/main.go
+
+      - name: Format Swagger docs (Prettier)
+        run: |
+          cd apps/server
+          npx prettier --write swagger/swagger.json
+          npx prettier --write swagger/swagger.yaml
+
+      # ---- Validation ----
+      - name: Check for uncommitted Swagger changes
+        working-directory: apps/server
+        run: |
+          if [ -n "$(git status --porcelain swagger)" ]; then
+            echo "❌ Swagger documentation is out of sync."
+            echo "👉 Run 'make swagger' (or swag + prettier) and commit the changes."
+            git diff swagger
+            exit 1
+          fi
+
+  # Database Migration Validation
+  migration-check:
+    name: Migration Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: mysecretpassword
+          POSTGRES_DB: techshastra
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5434:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5434 -U postgres; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done
+
+      - name: Validate migration syntax (dry-run)
+        working-directory: packages/server
+        env:
+          PGHOST: localhost
+          PGPORT: 5434
+          PGUSER: postgres
+          PGPASSWORD: mysecretpassword
+          PGDATABASE: techshastra
+        run: |
+          # Create schemas
+          psql -h localhost -U postgres -d techshastra -c "CREATE SCHEMA IF NOT EXISTS techshastra;"
+          psql -h localhost -U postgres -d techshastra -c "CREATE SCHEMA IF NOT EXISTS ory_keto;"
+
+          # Validate migration file syntax using dry-run (transaction rollback)
+          psql -h localhost -U postgres -d techshastra -v ON_ERROR_STOP=1 <<'EOF'
+          BEGIN;
+          \set ON_ERROR_STOP on
+          \i schema/001_initial.sql
+          ROLLBACK;
+          EOF
+
+          echo "Migration syntax validation passed!"
+
   # Frontend Checks
+  frontend-build:
+    name: Frontend Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.0
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml', 'apps/web/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            apps/web/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml', 'apps/web/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        working-directory: apps/web
+        run: pnpm install --frozen-lockfile
+
+      - name: Run linter
+        working-directory: apps/web
+        run: pnpm lint
+
+      - name: Check formatting
+        working-directory: apps/web
+        run: pnpm check
+
+      - name: Build frontend
+        working-directory: apps/web
+        run: pnpm build
+
+  # All checks must pass
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-latest
+    needs:
+      [
+        go-tests,
+        go-lint,
+        frontend-build,
+        sqlc-validate,
+        migration-check,
+        swagger-validate,
+      ]
+    if: always()
+    steps:
+      - name: Check all jobs
+        run: |
+          if [ "${{ needs.go-tests.result }}" != "success" ] || \
+              [ "${{ needs.go-lint.result }}" != "success" ] || \
+              [ "${{ needs.frontend-build.result }}" != "success" ] || \
+              [ "${{ needs.sqlc-validate.result }}" != "success" ] || \
+              [ "${{ needs.migration-check.result }}" != "success" ] || \
+              [ "${{ needs.swagger-validate.result }}" != "success" ]; then
+            echo "One or more CI checks failed"
+            exit 1
+          fi
+          echo "All CI checks passed!"
