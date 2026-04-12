@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { useState } from "react";
 import "../Styles/hero.css";
 import Schedule from "../Components/schedule";
+import Eventscroll from "../Components/eventsscroll";
 
 export default function Hero() {
   const [text, setText] = useState(
@@ -94,14 +95,14 @@ Discover your true potential.`
               engineers.
             </span>
           </p>
-
-          <div className="metors"></div>
         </div>
       </div>
 
+      <div className="hero-video"></div>
+
       <div className="event-details"></div>
 
-      <Schedule />
+      <Eventscroll />
 
       <div class="techfest-domains">
         <h1>{heading}</h1>
@@ -162,7 +163,7 @@ Discover your true potential.`);
           <div
             className="hero1-image4"
             onMouseEnter={() => {
-              setHeading("Electronics");
+              setHeading("ELECTRICAL");
               setText(`Work with circuits, signals, and smart devices.
 Power communication and modern technology.
 Drive innovation in the digital world.`);
@@ -177,6 +178,10 @@ Discover your true potential.`);
           ></div>
         </div>
       </div>
+
+      <div className="planetpurple"></div>
+
+      <div className="planetseacond"></div>
     </>
   );
 }

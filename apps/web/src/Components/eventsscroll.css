@@ -1,0 +1,486 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600&display=swap");
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Section shell ───────────────────────────────────────────────── */
+.presale-section {
+  position: relative;
+  width: 100%;
+  min-height: 180vh;
+  background: #06010f url("/bg-texture.webp") center center / cover no-repeat;
+  overflow-x: clip;
+  overflow-y: visible;
+  display: flex;
+  align-items: center;
+  font-family: "Exo 2", sans-serif;
+  z-index: 30;
+  /* Elevated from 5 to 30 so it correctly overlays the section above (which is z:20) */
+}
+
+@media (max-width: 768px) {
+  .presale-section {
+    background-image: url("/bg-texture--mobile.webp");
+    background-position: top center;
+  }
+}
+
+/* Top purple fog replaces the old black gradient */
+.purple-fog-top {
+  position: absolute;
+  top: -20px;
+  left: -50vw;
+  width: 200vw;
+  height: 590px;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(123, 0, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0.95) 90%,
+      #ffffff 100%
+    ),
+    url("/purple-fog.webp") center/cover no-repeat;
+  z-index: 30;
+  opacity: 0;
+  pointer-events: none;
+  transform: scaleY(-1);
+}
+
+/* Bottom fade */
+.presale-section::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(
+    to top,
+    var(--section-above-color, #050a14) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 12;
+}
+
+/* Subtle red tint near top-right for drama */
+.nebula {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 40% 30% at 85% 15%,
+    rgba(200, 10, 10, 0.14) 0%,
+    transparent 70%
+  );
+  z-index: 1;
+}
+
+/* Scanline texture */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ── Page layout ─────────────────────────────────────────────────── */
+.presale-inner {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  align-items: center;
+  gap: 40px;
+}
+
+/* ── Left copy ───────────────────────────────────────────────────── */
+.presale-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.presale-label {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #e03030;
+  letter-spacing: 0.06em;
+}
+
+.presale-title {
+  font-family: "Rajdhani", sans-serif;
+  font-size: clamp(42px, 5vw, 66px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 0.93;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.presale-desc {
+  font-size: 15px;
+  color: rgba(200, 190, 220, 0.78);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: 340px;
+}
+
+/* ── Carousel wrapper ────────────────────────────────────────────── */
+.carousel-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* ── Card row ────────────────────────────────────────────────────── */
+.card-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+/* ── Shared card shell ───────────────────────────────────────────── */
+.card {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+/* ── Side cards — grayscale, dimmed, smaller ─────────────────────── */
+.card-side {
+  width: 220px;
+  cursor: pointer;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.card-side--left {
+  transform: translateX(30px);
+}
+
+.card-side--right {
+  transform: translateX(-30px);
+}
+
+.card-side:hover {
+  transform: translateX(0) scale(1.05);
+  z-index: 2;
+}
+
+.card-img--side {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Full desaturate + heavy dim when not active */
+  filter: grayscale(1) brightness(0.32) contrast(1.15);
+  transition:
+    filter 0.4s ease,
+    transform 0.3s ease;
+  user-select: none;
+  pointer-events: none;
+}
+
+.card-side:hover .card-img--side {
+  filter: grayscale(1) brightness(0.5) contrast(1.1);
+}
+
+/* ── Active center card — full color, large, glowing, popping ────── */
+.card-active {
+  width: 360px;
+  z-index: 4;
+  /* Red glow aura around the whole image */
+  filter: drop-shadow(0 0 18px rgba(255, 20, 20, 0.7))
+    drop-shadow(0 0 48px rgba(255, 20, 20, 0.35))
+    drop-shadow(0 0 90px rgba(255, 20, 20, 0.18));
+  /* Pop-in spring animation every time active card changes */
+  animation: activePop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes activePop {
+  0% {
+    transform: scale(0.82);
+    opacity: 0.3;
+  }
+
+  60% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.card-img--active {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Slightly boost saturation & brightness so it pops against the dark bg */
+  filter: brightness(1.1) saturate(1.2) contrast(1.04);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ── Ember sparks (float up around active card) ──────────────────── */
+.embers {
+  position: absolute;
+  inset: -24px;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 5;
+}
+
+.ember {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatUp var(--dur, 2.5s) var(--delay, 0s) ease-out infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translate(var(--tx, 20px), -100px) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ── Coming soon badge ───────────────────────────────────────────── */
+.coming-soon-badge {
+  position: absolute;
+  top: 12px;
+  right: 8px;
+  width: 74px;
+  height: 74px;
+  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+  background: #c01818;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10;
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%,
+  100% {
+    background: #c01818;
+  }
+
+  50% {
+    background: #e02020;
+  }
+}
+
+.coming-soon-badge span {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.25;
+}
+
+/* ── Controls row ────────────────────────────────────────────────── */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  margin-right: 8;
+  gap: 10px;
+}
+
+.ctrl-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(170, 15, 15, 0.7);
+  border: 1.5px solid rgba(220, 60, 60, 0.5);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+  user-select: none;
+}
+
+.ctrl-btn:hover {
+  background: rgba(220, 25, 25, 0.92);
+  transform: scale(1.1);
+}
+
+.ctrl-btn:active {
+  transform: scale(0.94);
+}
+
+.card-name {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  min-width: 200px;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(255, 50, 50, 0.5);
+}
+
+/* ── Dot indicators ──────────────────────────────────────────────── */
+.carousel-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.dot--active {
+  background: #e03030;
+  transform: scale(1.35);
+  box-shadow: 0 0 6px rgba(220, 30, 30, 0.7);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .presale-inner {
+    padding: 38px 32px;
+    gap: 32px;
+  }
+
+  .card-active {
+    width: 310px;
+  }
+
+  .card-side {
+    width: 180px;
+  }
+
+  .presale-title {
+    transform: translate(-50px);
+  }
+
+  .presale-desc {
+    width: 70%;
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: 500;
+    transform: translate(-50px);
+    white-space: wrap;
+  }
+
+  .presale-label {
+    transform: translate(-50px);
+    font-color: rgb(255, 0, 0);
+    font-weight: 1800;
+  }
+
+  .card-row {
+    transform: translate(-50px);
+  }
+
+  .carousel-controls {
+    transform: translate(-50px);
+    gap: 1px;
+  }
+
+  .carousel-dots {
+    transform: translate(-50px);
+  }
+}
+
+@media (max-width: 768px) {
+  .presale-inner {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+    gap: 36px;
+  }
+
+  .presale-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .presale-desc {
+    max-width: 440px;
+  }
+
+  .card-active {
+    width: 260px;
+  }
+
+  .card-side {
+    width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-active {
+    width: 220px;
+  }
+
+  .card-side {
+    width: 120px;
+  }
+}
+
+.purple-fog {
+  position: absolute;
+
+  /* Push it below the bottom bound so it bleeds seamlessly into the next section */
+  bottom: -30px;
+  /* Extend horizontally a massive amount to force the hard image borders completely out of viewport */
+  left: -50vw;
+  width: 200vw;
+  height: 590px;
+
+  /* 🔥 MULTI-LAYER MAGIC */
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(123, 0, 255, 0.45) 45%,
+      /* purple haze */ rgba(255, 255, 255, 0.95) 80%,
+      /* dense white fog */ #ffffff 100% /* full seamless white */
+    ),
+    url("/purple-fog.webp") center/cover no-repeat;
+
+  /* Removed overlay mix-blend-mode so we can achieve a solid white fade */
+  z-index: 30;
+  /* Put it above the presale cards so the fog overlaps them */
+  pointer-events: none;
+  /* Let clicks pass through to to buttons and arrows */
+}

@@ -395,6 +395,24 @@ html {
   height: 100vh;
 }
 
+/* Blend the boundary perfectly into the section above it */
+.techfest-domains::before {
+  content: "";
+  position: absolute;
+  top: -250px;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.7) 60%,
+    #ffffff 100%
+  );
+  z-index: 10;
+  pointer-events: none;
+}
+
 .ashimage {
   margin-top: 70vh;
   background: url("/ash-bottom.webp") center/cover no-repeat;
@@ -502,6 +520,34 @@ html {
   z-index: 1;
 }
 
+.planetpurple {
+  position: absolute;
+
+  width: 100%;
+  height: 160vh;
+  background: url("/planet-1.webp") center/cover no-repeat;
+}
+
+.black-cloud {
+  position: absolute;
+
+  width: 100%;
+  height: 20vh;
+  background: url("/black-cloud.webp");
+
+  z-index: 13;
+}
+
+.hero-video {
+  position: absolute;
+  margin-top: 210vh;
+  margin-left: 20%;
+  width: 60%;
+  height: 20vh;
+  background: red;
+  z-index: 60;
+}
+
 /* ========================
    MOBILE — max-width: 768px
 ======================== */
@@ -519,8 +565,8 @@ html {
   }
 
   .hero-container h1 {
-    font-size: clamp(3.2rem, 8vw, 3.8rem);
-    top: 20%;
+    font-size: clamp(2.2rem, 8vw, 3.8rem);
+    top: 35%;
     left: 50%;
     width: 90%;
     transform: translate(-50%, -50%);
@@ -568,29 +614,25 @@ html {
 
   .hero-about h1 {
     position: absolute;
-
+    transform: translate(-50px);
+    text-align: left;
     top: auto;
     left: auto;
     transform: none;
-    font-size: clamp(1.4rem, 6vw, 1.9rem);
-    width: 100%;
+    font-size: clamp(3rem, 6vw, 1.9rem);
+    width: 80%;
     text-align: center;
     padding: 5% 5% 0;
     color: white;
   }
 
   .hero-about p {
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
-    margin: 0 auto;
-    width: 88%;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    text-align: center;
-    padding: 4% 0 6%;
-    color: white;
+    width: 40%;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 3.75;
+    font-weight: 100;
+    max-width: 340px;
   }
 
   /* ---- Surface Texture ---- */
@@ -777,6 +819,7 @@ html {
 
   .hero1-image3 {
     position: absolute;
+
     width: 25%;
     height: 100%;
     margin-left: 45%;
@@ -789,5 +832,17 @@ html {
     width: 40%;
     margin-top: 4%;
     height: 100%;
+  }
+
+  .hero-video {
+    position: absolute;
+    width: 75%;
+    margin-right: 2%;
+    transform: translate(-35px);
+    margin-top: 135vh;
+  }
+
+  .planetpurple {
+    margin-top: -30vh;
   }
 }
