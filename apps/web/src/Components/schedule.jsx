@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import "./schedule.css";
 
 const MILESTONES = [
@@ -136,11 +136,6 @@ export default function JourneyAhead() {
   const tx = -RX * Math.sin(endRad);
   const ty = RY * Math.cos(endRad);
   const tLen = Math.sqrt(tx * tx + ty * ty);
-  const arrowTip = { x: endPt.x, y: endPt.y };
-  const arrowBase = {
-    x: endPt.x - (tx / tLen) * 22,
-    y: endPt.y - (ty / tLen) * 22,
-  };
 
   function navigate(dir) {
     setFocusIdx((prev) => {
