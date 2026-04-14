@@ -1,0 +1,767 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap");
+
+/* === Keyframes === */
+@keyframes auraGlow {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.08);
+  }
+}
+@keyframes orbitSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@keyframes blinkDot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.22;
+    transform: translateX(-50%) scale(0.4);
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: var(--op);
+  }
+  50% {
+    opacity: calc(var(--op) * 0.15);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scan {
+  0% {
+    top: -4px;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* === Reset === */
+* {
+  box-sizing: border-box;
+}
+
+/* === Scrollbar === */
+::-webkit-scrollbar {
+  height: 2px;
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #121c2c;
+  border-radius: 2px;
+}
+
+/* === Root Container === */
+.timeline-root {
+  width: 100%;
+  min-height: 100vh;
+  background: #030508;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  font-family: "Rajdhani", sans-serif;
+}
+
+/* === Stars === */
+.timeline-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.timeline-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* === Nebula overlay === */
+.timeline-nebula {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 90% 50% at 12% 68%,
+      rgba(10, 20, 75, 0.48) 0%,
+      transparent 62%
+    ),
+    radial-gradient(
+      ellipse 65% 55% at 88% 20%,
+      rgba(36, 6, 58, 0.38) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 110% 32% at 50% 100%,
+      rgba(5, 10, 40, 0.65) 0%,
+      transparent 68%
+    );
+}
+
+/* === Scan line === */
+.timeline-scan-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.timeline-scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(60, 140, 255, 0.04),
+    transparent
+  );
+  animation: scan 10s linear infinite;
+}
+
+/* === Header === */
+.timeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(3, 5, 8, 0.9);
+  backdrop-filter: blur(16px);
+  z-index: 30;
+  flex-shrink: 0;
+}
+.timeline-header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.timeline-logo {
+  font-family: "Orbitron", monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #2e4858;
+  font-weight: 700;
+}
+.timeline-logo-dim {
+  color: #1c2c38;
+}
+.timeline-divider {
+  width: 1px;
+  height: 14px;
+  background: #101820;
+}
+.timeline-bars {
+  display: flex;
+  gap: 6px;
+}
+.timeline-bar {
+  width: 20px;
+  height: 2px;
+  border-radius: 1px;
+}
+.timeline-bar--on {
+  background: #223650;
+}
+.timeline-bar--off {
+  background: #0e1620;
+}
+.timeline-header-center {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.timeline-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px;
+  border: 1px solid rgba(60, 140, 255, 0.18);
+  border-radius: 2px;
+  background: rgba(10, 28, 60, 0.3);
+}
+.timeline-user-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4090d8;
+  box-shadow: 0 0 8px #4090d8;
+}
+.timeline-user-name {
+  font-family: "Orbitron", monospace;
+  font-size: 9px;
+  color: #6098d0;
+  letter-spacing: 2px;
+}
+.timeline-user-name span {
+  color: #fff;
+}
+.timeline-user-mastery {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 9px;
+  color: #284054;
+  letter-spacing: 1px;
+}
+.timeline-user-mastery span {
+  color: #6098d0;
+}
+.timeline-currency-label {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 8px;
+  color: #283848;
+  letter-spacing: 2px;
+}
+.timeline-currency-val {
+  font-family: "Orbitron", monospace;
+  font-size: 10px;
+}
+.timeline-header-right {
+  display: flex;
+  gap: 8px;
+}
+.timeline-icon-btn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  font-size: 11px;
+  color: #2e3c48;
+  cursor: pointer;
+  background: none;
+}
+
+/* === Main content area === */
+.timeline-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+}
+
+/* === Active info panel at top === */
+.timeline-info {
+  text-align: center;
+  padding: 10px 20px 0;
+  min-height: 76px;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+.timeline-info--hidden {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+.timeline-info--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.timeline-info__distance {
+  font-family: "Orbitron", monospace;
+  font-size: 8px;
+  letter-spacing: 5px;
+  opacity: 0.46;
+  margin-bottom: 4px;
+}
+.timeline-info__name {
+  font-family: "Orbitron", monospace;
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 8px;
+}
+.timeline-info__desc {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 12px;
+  color: #3c4e5e;
+  letter-spacing: 2px;
+  margin-top: 3px;
+}
+
+/* === Scroll area with arrows === */
+.timeline-scroll-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.timeline-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 10, 20, 0.85);
+  backdrop-filter: blur(8px);
+  color: #6098d0;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+.timeline-arrow:hover {
+  border-color: rgba(96, 152, 208, 0.4);
+  background: rgba(10, 28, 60, 0.7);
+  box-shadow: 0 0 30px rgba(96, 152, 208, 0.2);
+  color: #a0d0ff;
+}
+.timeline-arrow--left {
+  left: 12px;
+}
+.timeline-arrow--right {
+  right: 12px;
+}
+
+.timeline-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 60px 80px 36px;
+  scrollbar-width: thin;
+  width: 100%;
+}
+.timeline-track {
+  display: flex;
+  align-items: flex-end;
+  width: max-content;
+  min-width: 100%;
+  justify-content: center;
+  gap: 0;
+  padding-bottom: 28px;
+}
+.timeline-track-item {
+  display: flex;
+  align-items: flex-end;
+}
+
+/* === Planet wrapper === */
+.timeline-planet-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  flex-shrink: 0;
+  position: relative;
+  padding-top: 38px;
+}
+.timeline-planet-wrap--active {
+  transform: translateY(-32px);
+  width: 180px;
+  z-index: 10;
+}
+.timeline-planet-wrap--inactive {
+  transform: translateY(0);
+  width: 112px;
+  z-index: 1;
+}
+.timeline-planet-wrap--locked {
+  cursor: not-allowed;
+}
+.timeline-planet-wrap--unlocked {
+  cursor: pointer;
+}
+
+/* === Planet ball === */
+.timeline-planet-ball {
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  transition: box-shadow 0.6s ease;
+  z-index: 2;
+}
+.timeline-planet-img {
+  object-fit: cover;
+  position: absolute;
+  transition: filter 0.6s ease;
+}
+.timeline-planet-img--custom {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.timeline-planet-img--default {
+  width: 130%;
+  height: 130%;
+  top: -15%;
+  left: -15%;
+}
+.timeline-planet-shade {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.timeline-planet-specular {
+  position: absolute;
+  top: 8%;
+  left: 12%;
+  width: 36%;
+  height: 28%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+  filter: blur(2px);
+}
+.timeline-planet-rim {
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: all 0.6s ease;
+}
+.timeline-planet-lock-icon {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === Saturn Rings === */
+.timeline-saturn-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+.timeline-saturn-ring-outer {
+  border-radius: 50%;
+  transform: rotateX(74deg);
+  pointer-events: none;
+  transition: all 0.6s ease;
+  position: relative;
+}
+.timeline-saturn-ring-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72%;
+  height: 72%;
+  border-radius: 50%;
+}
+
+/* === Aura + orbit rings (active planet) === */
+.timeline-aura {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: auraGlow 3s ease-in-out infinite;
+  width: 295px;
+  height: 295px;
+}
+.timeline-orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  margin-top: -12px;
+}
+.timeline-orbit-dot {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  opacity: 0.78;
+}
+.timeline-constellation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  margin-top: -12px;
+  animation: orbitSpin 30s linear infinite;
+}
+.timeline-constellation svg {
+  position: absolute;
+  inset: 0;
+}
+
+/* === Planet label area === */
+.timeline-planet-label {
+  text-align: center;
+  position: relative;
+  z-index: 5;
+}
+.timeline-planet-tag {
+  font-family: "Orbitron", monospace;
+  font-size: 7px;
+  letter-spacing: 5px;
+  opacity: 0.48;
+  margin-bottom: 4px;
+}
+.timeline-planet-name {
+  font-family: "Orbitron", monospace;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+}
+.timeline-planet-subtitle {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 11px;
+  color: #3e5060;
+  letter-spacing: 1.5px;
+  margin-top: 3px;
+}
+.timeline-planet-mission {
+  font-family: "Rajdhani", sans-serif;
+  letter-spacing: 1px;
+}
+.timeline-blink-dot {
+  position: absolute;
+  bottom: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  animation: blinkDot 1.8s ease-in-out infinite;
+}
+
+/* === Connector line === */
+.timeline-line {
+  width: 36px;
+  align-self: center;
+  margin-bottom: 60px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.timeline-line-seg {
+  flex: 1;
+  height: 1px;
+  transition: all 0.4s ease;
+}
+
+/* === Bottom bar === */
+.timeline-bottom-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 36px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(3, 5, 8, 0.8);
+  backdrop-filter: blur(14px);
+  flex-wrap: wrap;
+  transition: opacity 0.4s ease 0.1s;
+  min-height: 62px;
+  flex-shrink: 0;
+}
+.timeline-stat-card {
+  padding: 7px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.02);
+  text-align: center;
+  min-width: 100px;
+  animation: fadeUp 0.35s ease both;
+}
+.timeline-stat-label {
+  font-family: "Orbitron", monospace;
+  font-size: 7px;
+  color: #263646;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.timeline-stat-val {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+.timeline-launch-btn {
+  padding: 9px 30px;
+  border-radius: 2px;
+  font-family: "Orbitron", monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.25s;
+  animation: fadeUp 0.35s ease 0.06s both;
+}
+.timeline-locked-msg {
+  font-family: "Orbitron", monospace;
+  font-size: 9px;
+  color: #222c38;
+  letter-spacing: 4px;
+  animation: fadeUp 0.35s ease both;
+}
+
+/* === Corner brackets === */
+.timeline-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+  .timeline-header {
+    padding: 10px 18px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .timeline-header-center {
+    display: none;
+  }
+  .timeline-scroll {
+    padding: 50px 50px 28px;
+  }
+  .timeline-info__name {
+    font-size: 18px;
+    letter-spacing: 5px;
+  }
+  .timeline-bottom-bar {
+    padding: 10px 18px;
+    gap: 8px;
+  }
+  .timeline-stat-card {
+    min-width: 80px;
+    padding: 5px 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .timeline-header-right {
+    display: none;
+  }
+  .timeline-header-left .timeline-bars {
+    display: none;
+  }
+  .timeline-scroll {
+    padding: 40px 40px 24px;
+  }
+  .timeline-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+  .timeline-arrow--left {
+    left: 6px;
+  }
+  .timeline-arrow--right {
+    right: 6px;
+  }
+  .timeline-info {
+    min-height: 60px;
+    padding: 8px 14px 0;
+  }
+  .timeline-info__name {
+    font-size: 16px;
+    letter-spacing: 4px;
+  }
+  .timeline-info__desc {
+    font-size: 11px;
+  }
+  .timeline-bottom-bar {
+    padding: 8px 12px;
+    gap: 6px;
+  }
+  .timeline-stat-card {
+    min-width: 70px;
+    padding: 4px 8px;
+  }
+  .timeline-stat-label {
+    font-size: 6px;
+  }
+  .timeline-stat-val {
+    font-size: 12px;
+  }
+  .timeline-launch-btn {
+    padding: 7px 18px;
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-header {
+    padding: 8px 12px;
+  }
+  .timeline-logo {
+    font-size: 8px;
+  }
+  .timeline-scroll {
+    padding: 30px 24px 18px;
+  }
+  .timeline-arrow {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  .timeline-arrow--left {
+    left: 4px;
+  }
+  .timeline-arrow--right {
+    right: 4px;
+  }
+  .timeline-info__name {
+    font-size: 14px;
+    letter-spacing: 3px;
+  }
+  .timeline-info__desc {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+  .timeline-bottom-bar {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .timeline-stat-card {
+    min-width: unset;
+    width: 100%;
+  }
+}

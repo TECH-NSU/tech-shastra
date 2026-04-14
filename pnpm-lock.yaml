@@ -20,6 +20,9 @@ importers:
 
   apps/web:
     dependencies:
+      gsap:
+        specifier: ^3.14.2
+        version: 3.14.2
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -54,6 +57,9 @@ importers:
       globals:
         specifier: ^17.4.0
         version: 17.4.0
+      prettier:
+        specifier: ^3.8.2
+        version: 3.8.2
       vite:
         specifier: ^8.0.4
         version: 8.0.7(yaml@2.8.3)
@@ -586,6 +592,9 @@ packages:
     resolution: {integrity: sha512-hjrNztw/VajQwOLsMNT1cbJiH2muO3OROCHnbehc8eY5JyD2gqz4AcMHPqgaOR59DjgUjYAYLeH699g/eWi2jw==}
     engines: {node: '>=18'}
 
+  gsap@3.14.2:
+    resolution: {integrity: sha512-P8/mMxVLU7o4+55+1TCnQrPmgjPKnwkzkXOK1asnR9Jg2lna4tEY5qBJjMmAaOBDDZWtlRjBXjLa0w53G/uBLA==}
+
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
@@ -820,6 +829,11 @@ packages:
 
   prettier@3.8.1:
     resolution: {integrity: sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==}
+    engines: {node: '>=14'}
+    hasBin: true
+
+  prettier@3.8.2:
+    resolution: {integrity: sha512-8c3mgTe0ASwWAJK+78dpviD+A8EqhndQPUBpNUIPt6+xWlIigCwfN01lWr9MAede4uqXGTEKeQWTvzb3vjia0Q==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -1534,6 +1548,8 @@ snapshots:
 
   globals@17.4.0: {}
 
+  gsap@3.14.2: {}
+
   has-flag@4.0.0: {}
 
   hermes-estree@0.25.1: {}
@@ -1731,6 +1747,8 @@ snapshots:
   prelude-ls@1.2.1: {}
 
   prettier@3.8.1: {}
+
+  prettier@3.8.2: {}
 
   punycode@2.3.1: {}
 
