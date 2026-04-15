@@ -64,21 +64,25 @@
   box-sizing: border-box;
 }
 
-/* === Scrollbar === */
+/* === Scrollbar — hidden entirely === */
 ::-webkit-scrollbar {
-  height: 2px;
-  background: transparent;
+  display: none;
 }
-::-webkit-scrollbar-thumb {
-  background: #121c2c;
-  border-radius: 2px;
+.timeline-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* === Root Container === */
 .timeline-root {
   width: 100%;
   min-height: 100vh;
-  background: #030508;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 12, 18, 0.98) 0%,
+    rgba(3, 5, 8, 1) 36%,
+    rgba(6, 9, 14, 1) 100%
+  );
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -119,7 +123,82 @@
       ellipse 110% 32% at 50% 100%,
       rgba(5, 10, 40, 0.65) 0%,
       transparent 68%
-    );
+    ),
+    linear-gradient(rgba(140, 176, 220, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 176, 220, 0.04) 1px, transparent 1px);
+  background-size:
+    auto,
+    auto,
+    auto,
+    44px 44px,
+    44px 44px;
+  background-position: center, center, center, center, center;
+  opacity: 0.9;
+}
+
+.timeline-root::before,
+.timeline-root::after {
+  content: "";
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(216, 248, 255, 0.95),
+    transparent
+  );
+  box-shadow: 0 0 24px rgba(190, 230, 255, 0.4);
+  opacity: 0.8;
+}
+
+.timeline-root::before {
+  top: 22%;
+}
+
+.timeline-root::after {
+  bottom: 17%;
+}
+
+.timeline-main::before {
+  content: "";
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  top: 54%;
+  height: 140px;
+  transform: translateY(-50%);
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.08) 0,
+      rgba(255, 255, 255, 0.03) 18%,
+      transparent 50%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 66%);
+  filter: blur(1px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.timeline-main::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 112px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.16),
+    transparent
+  );
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 0;
 }
 
 /* === Scan line === */
@@ -147,14 +226,16 @@
 .timeline-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 13px 28px;
+  justify-content: center;
+  padding: 18px 28px 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: rgba(3, 5, 8, 0.9);
+  background: rgba(3, 5, 8, 0.86);
   backdrop-filter: blur(16px);
   z-index: 30;
   flex-shrink: 0;
 }
+
+/* === Header === */
 .timeline-header-left {
   display: flex;
   align-items: center;
@@ -162,33 +243,25 @@
 }
 .timeline-logo {
   font-family: "Orbitron", monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 3px;
-  color: #2e4858;
+  color: #6098d0;
   font-weight: 700;
 }
-.timeline-logo-dim {
-  color: #1c2c38;
+.timeline-logo-accent {
+  color: #d8a830;
+}
+.timeline-logo-tag {
+  font-family: "Orbitron", monospace;
+  font-size: 7px;
+  letter-spacing: 4px;
+  color: #2e4858;
+  font-weight: 400;
 }
 .timeline-divider {
   width: 1px;
   height: 14px;
-  background: #101820;
-}
-.timeline-bars {
-  display: flex;
-  gap: 6px;
-}
-.timeline-bar {
-  width: 20px;
-  height: 2px;
-  border-radius: 1px;
-}
-.timeline-bar--on {
-  background: #223650;
-}
-.timeline-bar--off {
-  background: #0e1620;
+  background: #1a2838;
 }
 .timeline-header-center {
   display: flex;
@@ -213,21 +286,22 @@
 }
 .timeline-user-name {
   font-family: "Orbitron", monospace;
-  font-size: 9px;
-  color: #6098d0;
-  letter-spacing: 2px;
+  font-size: 15px;
+  color: #ffcc00;
+  letter-spacing: 3px;
+  font-weight: 700;
 }
 .timeline-user-name span {
-  color: #fff;
+  color: #ffffff;
 }
 .timeline-user-mastery {
   font-family: "Rajdhani", sans-serif;
-  font-size: 9px;
-  color: #284054;
-  letter-spacing: 1px;
+  font-size: 13px;
+  color: #a0c0e0;
+  letter-spacing: 2px;
 }
 .timeline-user-mastery span {
-  color: #6098d0;
+  color: #60c0ff;
 }
 .timeline-currency-label {
   font-family: "Rajdhani", sans-serif;
@@ -244,15 +318,18 @@
   gap: 8px;
 }
 .timeline-icon-btn {
-  width: 26px;
+  min-width: 26px;
   height: 26px;
+  padding: 0 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 2px;
-  font-size: 11px;
-  color: #2e3c48;
+  font-size: 9px;
+  font-family: "Orbitron", monospace;
+  letter-spacing: 1px;
+  color: #7f93a6;
   cursor: pointer;
   background: none;
 }
@@ -264,16 +341,20 @@
   flex-direction: column;
   justify-content: center;
   min-height: 0;
+  position: relative;
+  padding: 14px 0 10px;
 }
 
 /* === Active info panel at top === */
 .timeline-info {
   text-align: center;
-  padding: 10px 20px 0;
-  min-height: 76px;
+  padding: 16px 20px 8px;
+  min-height: 96px;
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 .timeline-info--hidden {
   opacity: 0;
@@ -285,24 +366,28 @@
 }
 .timeline-info__distance {
   font-family: "Orbitron", monospace;
-  font-size: 8px;
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: 5px;
-  opacity: 0.46;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
 }
 .timeline-info__name {
   font-family: "Orbitron", monospace;
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 900;
   color: #fff;
   letter-spacing: 8px;
 }
 .timeline-info__desc {
   font-family: "Rajdhani", sans-serif;
-  font-size: 12px;
-  color: #3c4e5e;
-  letter-spacing: 2px;
-  margin-top: 3px;
+  font-size: 15px;
+  color: #e8eef2;
+  letter-spacing: 1.5px;
+  margin-top: 6px;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* === Scroll area with arrows === */
@@ -313,7 +398,7 @@
 }
 .timeline-arrow {
   position: absolute;
-  top: 50%;
+  top: 42%;
   transform: translateY(-50%);
   z-index: 20;
   width: 38px;
@@ -347,22 +432,26 @@
 .timeline-scroll {
   overflow-x: auto;
   overflow-y: visible;
-  padding: 60px 80px 36px;
-  scrollbar-width: thin;
+  padding: 34px 80px 24px;
   width: 100%;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.timeline-scroll::-webkit-scrollbar {
+  display: none;
 }
 .timeline-track {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   width: max-content;
   min-width: 100%;
   justify-content: center;
-  gap: 0;
-  padding-bottom: 28px;
+  gap: clamp(16px, 2vw, 28px);
+  padding: 0 8px 16px;
 }
 .timeline-track-item {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 /* === Planet wrapper === */
@@ -370,19 +459,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.45s ease;
   flex-shrink: 0;
   position: relative;
-  padding-top: 38px;
+  padding-top: 18px;
 }
 .timeline-planet-wrap--active {
-  transform: translateY(-32px);
-  width: 180px;
+  transform: translateY(-10px);
+  width: 200px;
   z-index: 10;
 }
 .timeline-planet-wrap--inactive {
   transform: translateY(0);
-  width: 112px;
+  width: 100px;
   z-index: 1;
 }
 .timeline-planet-wrap--locked {
@@ -398,25 +487,19 @@
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
-  transition: box-shadow 0.6s ease;
+  transition:
+    box-shadow 0.6s ease,
+    transform 0.35s ease;
   z-index: 2;
+}
+.timeline-planet-wrap--active .timeline-planet-ball {
+  transform: translateY(-2px) scale(1.03);
 }
 .timeline-planet-img {
   object-fit: cover;
+  object-position: center;
   position: absolute;
   transition: filter 0.6s ease;
-}
-.timeline-planet-img--custom {
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-.timeline-planet-img--default {
-  width: 130%;
-  height: 130%;
-  top: -15%;
-  left: -15%;
 }
 .timeline-planet-shade {
   position: absolute;
@@ -424,21 +507,46 @@
   border-radius: 50%;
   pointer-events: none;
 }
+/* Atmosphere color-tinted rim */
+.timeline-planet-atmosphere {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+/* Primary specular — tight glossy spot */
 .timeline-planet-specular {
   position: absolute;
-  top: 8%;
-  left: 12%;
-  width: 36%;
-  height: 28%;
+  top: 6%;
+  left: 10%;
+  width: 30%;
+  height: 22%;
   border-radius: 50%;
   background: radial-gradient(
     ellipse,
-    rgba(255, 255, 255, 0.32) 0%,
-    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0.1) 45%,
     transparent 70%
   );
   pointer-events: none;
   filter: blur(2px);
+}
+/* Secondary specular — broad soft sheen */
+.timeline-planet-specular2 {
+  position: absolute;
+  top: 3%;
+  left: 5%;
+  width: 55%;
+  height: 45%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 40% 35%,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+  filter: blur(4px);
 }
 .timeline-planet-rim {
   position: absolute;
@@ -485,47 +593,15 @@
 /* === Aura + orbit rings (active planet) === */
 .timeline-aura {
   position: absolute;
-  top: 8px;
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
   border-radius: 50%;
   pointer-events: none;
   animation: auraGlow 3s ease-in-out infinite;
-  width: 295px;
-  height: 295px;
-}
-.timeline-orbit-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  pointer-events: none;
-  margin-top: -12px;
-}
-.timeline-orbit-dot {
-  position: absolute;
-  top: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  opacity: 0.78;
-}
-.timeline-constellation {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  pointer-events: none;
-  margin-top: -12px;
-  animation: orbitSpin 30s linear infinite;
-}
-.timeline-constellation svg {
-  position: absolute;
-  inset: 0;
+  width: 210px;
+  height: 210px;
+  opacity: 0.9;
 }
 
 /* === Planet label area === */
@@ -533,33 +609,56 @@
   text-align: center;
   position: relative;
   z-index: 5;
+  min-height: 108px;
+  width: 100%;
+  padding-top: 20px;
+}
+.timeline-planet-label::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 14px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent);
+}
+.timeline-planet-marker {
+  width: 10px;
+  height: 10px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .timeline-planet-tag {
   font-family: "Orbitron", monospace;
   font-size: 7px;
-  letter-spacing: 5px;
-  opacity: 0.48;
-  margin-bottom: 4px;
+  letter-spacing: 4px;
+  opacity: 0.58;
+  margin-bottom: 7px;
 }
 .timeline-planet-name {
   font-family: "Orbitron", monospace;
   text-transform: uppercase;
   transition: all 0.4s ease;
+  line-height: 1.3;
 }
 .timeline-planet-subtitle {
   font-family: "Rajdhani", sans-serif;
-  font-size: 11px;
-  color: #3e5060;
-  letter-spacing: 1.5px;
-  margin-top: 3px;
+  font-size: 12px;
+  color: #687887;
+  letter-spacing: 1.3px;
+  margin-top: 6px;
 }
 .timeline-planet-mission {
   font-family: "Rajdhani", sans-serif;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 .timeline-blink-dot {
   position: absolute;
-  bottom: -11px;
+  bottom: 104px;
   left: 50%;
   transform: translateX(-50%);
   width: 5px;
@@ -570,9 +669,9 @@
 
 /* === Connector line === */
 .timeline-line {
-  width: 36px;
-  align-self: center;
-  margin-bottom: 60px;
+  width: 48px;
+  align-self: flex-start;
+  margin-top: 62px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -589,36 +688,47 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 14px 36px;
+  gap: 12px;
+  padding: 16px 36px 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.04);
-  background: rgba(3, 5, 8, 0.8);
+  background: linear-gradient(
+    180deg,
+    rgba(4, 7, 10, 0.54),
+    rgba(4, 7, 10, 0.88)
+  );
   backdrop-filter: blur(14px);
   flex-wrap: wrap;
-  transition: opacity 0.4s ease 0.1s;
-  min-height: 62px;
+  min-height: 74px;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 .timeline-stat-card {
-  padding: 7px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.02);
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.02)
+  );
   text-align: center;
-  min-width: 100px;
+  min-width: 120px;
   animation: fadeUp 0.35s ease both;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 .timeline-stat-label {
   font-family: "Orbitron", monospace;
-  font-size: 7px;
-  color: #263646;
-  letter-spacing: 2px;
-  margin-bottom: 4px;
+  font-size: 10px;
+  color: #ffffff;
+  letter-spacing: 3px;
+  margin-bottom: 6px;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 .timeline-stat-val {
   font-family: "Rajdhani", sans-serif;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   letter-spacing: 2px;
 }
 .timeline-launch-btn {
@@ -655,91 +765,33 @@
     flex-wrap: wrap;
     gap: 8px;
   }
-  .timeline-header-center {
-    display: none;
-  }
   .timeline-scroll {
-    padding: 50px 50px 28px;
+    padding: 30px 50px 20px;
   }
   .timeline-info__name {
-    font-size: 18px;
+    font-size: 20px;
     letter-spacing: 5px;
+  }
+  .timeline-info__desc {
+    font-size: 16px;
   }
   .timeline-bottom-bar {
     padding: 10px 18px;
     gap: 8px;
   }
   .timeline-stat-card {
-    min-width: 80px;
-    padding: 5px 12px;
+    min-width: 90px;
+    padding: 6px 12px;
   }
 }
 
 @media (max-width: 768px) {
-  .timeline-header-right {
-    display: none;
-  }
-  .timeline-header-left .timeline-bars {
-    display: none;
-  }
   .timeline-scroll {
-    padding: 40px 40px 24px;
+    padding: 24px 36px 16px;
   }
   .timeline-arrow {
-    width: 32px;
-    height: 32px;
-    font-size: 13px;
-  }
-  .timeline-arrow--left {
-    left: 6px;
-  }
-  .timeline-arrow--right {
-    right: 6px;
-  }
-  .timeline-info {
-    min-height: 60px;
-    padding: 8px 14px 0;
-  }
-  .timeline-info__name {
-    font-size: 16px;
-    letter-spacing: 4px;
-  }
-  .timeline-info__desc {
-    font-size: 11px;
-  }
-  .timeline-bottom-bar {
-    padding: 8px 12px;
-    gap: 6px;
-  }
-  .timeline-stat-card {
-    min-width: 70px;
-    padding: 4px 8px;
-  }
-  .timeline-stat-label {
-    font-size: 6px;
-  }
-  .timeline-stat-val {
-    font-size: 12px;
-  }
-  .timeline-launch-btn {
-    padding: 7px 18px;
-    font-size: 8px;
-  }
-}
-
-@media (max-width: 480px) {
-  .timeline-header {
-    padding: 8px 12px;
-  }
-  .timeline-logo {
-    font-size: 8px;
-  }
-  .timeline-scroll {
-    padding: 30px 24px 18px;
-  }
-  .timeline-arrow {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     font-size: 12px;
   }
   .timeline-arrow--left {
@@ -748,20 +800,179 @@
   .timeline-arrow--right {
     right: 4px;
   }
+  .timeline-info {
+    min-height: 70px;
+    padding: 8px 14px 4px;
+  }
   .timeline-info__name {
-    font-size: 14px;
+    font-size: 18px;
+    letter-spacing: 4px;
+  }
+  .timeline-info__desc {
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+  .timeline-planet-wrap--active {
+    width: 150px;
+  }
+  .timeline-planet-wrap--inactive {
+    width: 90px;
+  }
+  .timeline-aura {
+    width: 170px;
+    height: 170px;
+  }
+  .timeline-bottom-bar {
+    padding: 8px 12px;
+    gap: 6px;
+  }
+  .timeline-stat-card {
+    min-width: 70px;
+    padding: 5px 8px;
+  }
+  .timeline-stat-label {
+    font-size: 6px;
+  }
+  .timeline-stat-val {
+    font-size: 12px;
+  }
+  .timeline-planet-label {
+    min-height: 90px;
+    padding-top: 14px;
+  }
+  .timeline-planet-subtitle {
+    font-size: 10px;
+  }
+  .timeline-line {
+    width: 28px;
+    margin-top: 42px;
+  }
+  .timeline-track {
+    gap: clamp(8px, 1.5vw, 16px);
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-header {
+    padding: 8px 12px;
+  }
+  .timeline-logo {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+  .timeline-scroll {
+    padding: 20px 20px 12px;
+  }
+  .timeline-arrow {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+  .timeline-arrow--left {
+    left: 2px;
+  }
+  .timeline-arrow--right {
+    right: 2px;
+  }
+  .timeline-info {
+    min-height: 60px;
+    padding: 6px 10px 2px;
+  }
+  .timeline-info__distance {
+    font-size: 7px;
+    letter-spacing: 3px;
+  }
+  .timeline-info__name {
+    font-size: 15px;
     letter-spacing: 3px;
   }
   .timeline-info__desc {
     font-size: 10px;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+  }
+  .timeline-planet-wrap--active {
+    width: 120px;
+  }
+  .timeline-planet-wrap--inactive {
+    width: 72px;
+  }
+  .timeline-aura {
+    width: 140px;
+    height: 140px;
   }
   .timeline-bottom-bar {
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
+    padding: 8px 10px;
   }
   .timeline-stat-card {
     min-width: unset;
     width: 100%;
+    padding: 4px 8px;
+  }
+  .timeline-stat-label {
+    font-size: 6px;
+  }
+  .timeline-stat-val {
+    font-size: 11px;
+  }
+  .timeline-planet-label {
+    min-height: 76px;
+    padding-top: 10px;
+  }
+  .timeline-planet-label::before {
+    height: 8px;
+  }
+  .timeline-planet-marker {
+    width: 7px;
+    height: 7px;
+    margin-bottom: 6px;
+  }
+  .timeline-planet-tag {
+    font-size: 6px;
+    letter-spacing: 3px;
+    margin-bottom: 4px;
+  }
+  .timeline-planet-subtitle {
+    font-size: 9px;
+    margin-top: 3px;
+  }
+  .timeline-line {
+    width: 18px;
+    margin-top: 37px;
+  }
+  .timeline-track {
+    gap: clamp(4px, 1vw, 10px);
+  }
+  .timeline-corner {
+    display: none;
+  }
+  .timeline-root::before,
+  .timeline-root::after {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .timeline-planet-wrap--active {
+    width: 100px;
+  }
+  .timeline-planet-wrap--inactive {
+    width: 60px;
+  }
+  .timeline-aura {
+    width: 110px;
+    height: 110px;
+  }
+  .timeline-info__name {
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+  .timeline-scroll {
+    padding: 16px 14px 10px;
+  }
+  .timeline-line {
+    width: 12px;
+    margin-top: 37px;
   }
 }

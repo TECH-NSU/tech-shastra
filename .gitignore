@@ -91,3 +91,8 @@ apps/server/tmp/
 
 
 .codex
+
+# Temporary backups
+apps/web/old_*
+apps/web/old_timeline_temp.txt
+apps/web/public/planets/saturn_new.jpg
