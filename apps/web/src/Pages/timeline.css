@@ -136,32 +136,6 @@
   opacity: 0.9;
 }
 
-.timeline-root::before,
-.timeline-root::after {
-  content: "";
-  position: absolute;
-  left: 4%;
-  right: 4%;
-  height: 2px;
-  pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(216, 248, 255, 0.95),
-    transparent
-  );
-  box-shadow: 0 0 24px rgba(190, 230, 255, 0.4);
-  opacity: 0.8;
-}
-
-.timeline-root::before {
-  top: 22%;
-}
-
-.timeline-root::after {
-  bottom: 17%;
-}
-
 .timeline-main::before {
   content: "";
   position: absolute;

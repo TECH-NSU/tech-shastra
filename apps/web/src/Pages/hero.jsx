@@ -100,7 +100,9 @@ Discover your true potential.`
 
       <div className="hero-video"></div>
 
-      <div className="event-details"></div>
+      <div className="event-details">
+        <h1 className="techshastra-white-text">TECHSHASTRA</h1>
+      </div>
 
       <Eventscroll />
 

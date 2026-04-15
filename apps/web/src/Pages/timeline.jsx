@@ -1,5 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./timeline.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const IMG = {
   mercury: "/planets/mercury.png",
@@ -418,6 +422,33 @@ export default function Timeline() {
   const scrollRef = useRef(null);
   const active = MILESTONES.find((p) => p.id === activeId);
 
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      const planets = gsap.utils.toArray(".timeline-planet-img");
+      planets.forEach((p) => {
+        gsap.to(p, {
+          rotation: 360,
+          duration: 25,
+          repeat: -1,
+          ease: "none",
+        });
+      });
+
+      const rings = gsap.utils.toArray(".timeline-saturn-ring-outer");
+      rings.forEach((r) => {
+        gsap.set(r, { rotationX: 74 });
+        gsap.to(r, {
+          rotationZ: 360,
+          duration: 35,
+          repeat: -1,
+          ease: "none",
+        });
+      });
+    }, scrollRef);
+
+    return () => ctx.revert();
+  }, []);
+
   useEffect(() => {
     const handleResize = () => setWinW(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -490,32 +521,6 @@ export default function Timeline() {
       <div className="timeline-scan-wrap">
         <div className="timeline-scan-line" />
       </div>
-
-      {/* Header */}
-      <header className="timeline-header">
-        <div className="timeline-header-center">
-          <div className="timeline-user-badge">
-            <div className="timeline-user-dot" />
-            <span className="timeline-user-name">
-              TECHFEST <span>2026</span>
-            </span>
-            <span className="timeline-user-mastery">
-              NSU · <span>Jamshedpur</span>
-            </span>
-          </div>
-          {[
-            ["EVENTS", "24+", "#d8a830"],
-            ["PRIZE POOL", "₹5L+", "#a0c0e0"],
-          ].map(([l, v, c]) => (
-            <div key={l} style={{ textAlign: "right" }}>
-              <div className="timeline-currency-label">{l}</div>
-              <div className="timeline-currency-val" style={{ color: c }}>
-                {v}
-              </div>
-            </div>
-          ))}
-        </div>
-      </header>
 
       {/* Main */}
       <div className="timeline-main">
