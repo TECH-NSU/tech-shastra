@@ -609,6 +609,10 @@
    RESPONSIVE
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
+  .contact-grid-section {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+  }
   .contact-hex-frame {
     width: 100px;
     height: 116px;
@@ -643,14 +647,14 @@
     font-size: 11px;
     letter-spacing: 2px;
   }
-  .contact-acc-title {
+  .contact-card-title {
     font-size: 12px;
     letter-spacing: 3px;
   }
-  .contact-acc-header {
-    padding: 18px 20px 18px 26px;
+  .contact-card-header {
+    padding: 16px 20px 16px 24px;
   }
-  .contact-acc-panel-inner {
+  .contact-card-body {
     padding: 18px 20px 22px;
   }
   .contact-faculty-row {
@@ -664,51 +668,43 @@
   .contact-map-container {
     height: 220px;
   }
-  .contact-accordion-section {
+  .contact-grid-section {
     padding: 16px 16px 0;
-    gap: 10px;
+    gap: 16px;
   }
 }
 
 @media (max-width: 480px) {
   .contact-hero-section {
-    padding: 60px 12px 20px;
-    gap: 10px;
+    padding: 50px 8px 10px;
+    gap: 8px;
   }
   .contact-hex-frame {
-    width: 60px;
-    height: 70px;
+    width: 45px;
+    height: 52px;
   }
   .contact-title {
-    font-size: 22px;
-    letter-spacing: 2px;
+    font-size: 18px;
+    letter-spacing: 1.5px;
   }
   .contact-subtitle {
-    font-size: 9px;
-    letter-spacing: 2px;
+    font-size: 8px;
+    letter-spacing: 1.5px;
   }
   .contact-title-underline {
-    width: 50px;
-    height: 3px;
-    margin: 10px auto 12px;
+    width: 40px;
+    height: 2px;
+    margin: 6px auto 8px;
   }
-  .contact-acc-title {
+  .contact-card-title {
     font-size: 10px;
     letter-spacing: 2px;
   }
-  .contact-acc-header {
-    padding: 16px 16px 16px 22px;
+  .contact-card-header {
+    padding: 14px 16px 14px 20px;
   }
-  .contact-acc-panel-inner {
+  .contact-card-body {
     padding: 14px 16px 18px;
-  }
-  .contact-acc-icon {
-    width: 22px;
-    height: 22px;
-  }
-  .contact-acc-icon svg {
-    width: 20px;
-    height: 20px;
   }
   .contact-faculty-name {
     font-size: 12px;
@@ -752,8 +748,8 @@
     font-size: 7px;
     padding: 5px 10px;
   }
-  .contact-accordion-section {
+  .contact-grid-section {
     padding: 12px 12px 0;
-    gap: 8px;
+    gap: 12px;
   }
 }

@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import "./contact.css";
 
 /* ── Star field ──────────────────────────────────────────────────── */
@@ -15,25 +14,6 @@ const STARS = Array.from({ length: 220 }, (_, i) => {
     dur: 2 + Math.random() * 3,
   };
 });
-
-/* ── Arrow Icon ──────────────────────────────────────────────────── */
-function ArrowLeftIcon() {
-  return (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="19" y1="12" x2="5" y2="12" />
-      <polyline points="12 19 5 12 12 5" />
-    </svg>
-  );
-}
 
 export default function Contact() {
   useEffect(() => {
@@ -67,10 +47,6 @@ export default function Contact() {
         <div className="contact-scan-line" />
       </div>
 
-      <Link to="/" className="contact-back">
-        <ArrowLeftIcon /> BACK
-      </Link>
-
       <section className="contact-hero-section">
         <div className="contact-hex-frame contact-hex-left">
           <div className="contact-hex-clip">
@@ -101,59 +77,88 @@ export default function Contact() {
       <section className="contact-grid-section">
         {/* Left Column */}
         <div className="contact-grid-col">
-          {/* Faculty Card */}
+          {/* Student Coordinators Card */}
           <div
             className="contact-card-block"
             style={{ animationDelay: "0.1s" }}
           >
             <div className="contact-card-header">
-              <span className="contact-card-title">FACULTY COORDINATORS</span>
+              <span className="contact-card-title">STUDENT COORDINATORS</span>
             </div>
             <div className="contact-card-body">
               <div className="contact-faculty-row">
                 <div className="contact-faculty-item">
-                  <div className="contact-faculty-name">Dr. xyz</div>
+                  <div className="contact-faculty-name">Rajdeep Ray</div>
                   <div className="contact-faculty-pos">
-                    Faculty Coordinator – TechShastra 2026
+                    Student Coordinator (CSE) – TechShastra 2026
                   </div>
                   <div className="contact-faculty-phone">
-                    <span className="contact-phone-icon">📞</span> +91 12345
-                    67890
+                    <span className="contact-phone-icon">📞</span> +91 98353
+                    40860
                   </div>
                 </div>
                 <div className="contact-faculty-item">
-                  <div className="contact-faculty-name">Prof. abc</div>
+                  <div className="contact-faculty-name">Ankesh</div>
                   <div className="contact-faculty-pos">
-                    Co-Coordinator – TechShastra 2026
+                    Student Coordinator (Civil) – TechShastra 2026
                   </div>
                   <div className="contact-faculty-phone">
-                    <span className="contact-phone-icon">📞</span> +91 12345
-                    67890
+                    <span className="contact-phone-icon">📞</span> +91 87579
+                    00389
+                  </div>
+                </div>
+                <div className="contact-faculty-item">
+                  <div className="contact-faculty-name">Vickey Kumar</div>
+                  <div className="contact-faculty-pos">
+                    Student Coordinator (Electrical) – TechShastra 2026
+                  </div>
+                  <div className="contact-faculty-phone">
+                    <span className="contact-phone-icon">📞</span> +91 77618
+                    68560
+                  </div>
+                </div>
+                <div className="contact-faculty-item">
+                  <div className="contact-faculty-name">Vishal Yadav</div>
+                  <div className="contact-faculty-pos">
+                    Student Coordinator (Mechanical) – TechShastra 2026
+                  </div>
+                  <div className="contact-faculty-phone">
+                    <span className="contact-phone-icon">📞</span> +91 98613
+                    68901
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Email Card */}
+          {/* Email & Social Card */}
           <div
             className="contact-card-block"
             style={{ animationDelay: "0.2s" }}
           >
             <div className="contact-card-header">
-              <span className="contact-card-title">REACH OUT VIA EMAIL</span>
+              <span className="contact-card-title">REACH US</span>
             </div>
             <div className="contact-card-body">
               <div className="contact-email-info">
                 <div className="contact-email-row">
                   <span className="contact-email-icon">✉</span>
                   <span className="contact-email-addr">
-                    techshastra@nsu.ac.in
+                    techshastra@nsuniv.ac.in
                   </span>
                 </div>
                 <div className="contact-email-row">
-                  <span className="contact-email-icon">✉</span>
-                  <span className="contact-email-addr">events@nsu.ac.in</span>
+                  <span className="contact-email-icon">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                    </svg>
+                  </span>
+                  <span className="contact-email-addr">@techshastra.nsu</span>
                 </div>
               </div>
             </div>

@@ -20,10 +20,10 @@ const MILESTONES = [
   {
     id: 1,
     key: "mercury",
-    name: "REGISTRATION",
+    name: "REGISTRATION OPENS",
     subtitle: "Opens Now!",
     phase: "Phase 1",
-    date: "May 1 – May 20",
+    date: "May 1",
     status: "completed",
     glow: "#c8b8a0",
     description:
@@ -33,94 +33,94 @@ const MILESTONES = [
   {
     id: 2,
     key: "venus",
-    name: "SUBMISSION",
-    subtitle: "Project Deadline",
+    name: "REGISTRATION CLOSES",
+    subtitle: "Secure Your Spot",
     phase: "Phase 2",
-    date: "May 20 – Jun 5",
+    date: "May 20",
     status: "completed",
     glow: "#f09040",
     description:
-      "Submit your project abstracts, prototypes, and presentations before the deadline.",
-    dateLabel: "JUN 5",
+      "Last day to register and form your teams before the big event kicks off.",
+    dateLabel: "MAY 20",
   },
   {
     id: 3,
     key: "earth",
-    name: "WORKSHOPS",
-    subtitle: "Skill Building",
+    name: "INAUGURATION",
+    subtitle: "Opening Ceremony",
     phase: "Phase 3",
-    date: "Jun 10 – Jun 15",
+    date: "Jun 18",
     status: "completed",
     glow: "#60b0f0",
     description:
-      "Attend expert-led workshops on AI, Web3, Robotics, and Cybersecurity.",
-    dateLabel: "JUN 10",
+      "The grand opening ceremony! Join us as we light the lamp and begin TechShastra.",
+    dateLabel: "JUN 18",
   },
   {
     id: 4,
     key: "mars",
-    name: "HACKATHON",
-    subtitle: "48hr Build Sprint",
+    name: "EVENT DAY 1",
+    subtitle: "Let the Games Begin",
     phase: "Phase 4",
-    date: "Jun 18 – Jun 20",
+    date: "Jun 19",
     status: "active",
     glow: "#ff6040",
     description:
-      "The 48-hour hackathon begins! Build, innovate, and push boundaries.",
-    dateLabel: "JUN 18",
+      "Round 1 of all major competitions, workshops, and the start of the 48-hour build sprints.",
+    dateLabel: "JUN 19",
   },
   {
     id: 5,
     key: "jupiter",
-    name: "SEMIFINALS",
-    subtitle: "Top 50 Teams",
+    name: "EVENT DAY 2",
+    subtitle: "The Climax",
     phase: "Phase 5",
-    date: "Jun 22",
+    date: "Jun 20",
     status: "active",
     glow: "#e8c880",
     description:
-      "Top 50 teams present their solutions to the panel of industry judges.",
-    dateLabel: "JUN 22",
+      "Intense semi-finals, project showcases, and the final push before the clock runs out.",
+    dateLabel: "JUN 20",
   },
   {
     id: 6,
     key: "saturn",
-    name: "FINALS",
-    subtitle: "Grand Showdown",
+    name: "WINNER ANNOUNCEMENT",
+    subtitle: "Results Declared",
     phase: "Phase 6",
-    date: "Jun 25",
+    date: "Jun 21",
     status: "active",
     glow: "#e0cc80",
     hasSaturnRing: true,
     description:
-      "The final 10 teams battle it out on stage for the championship title.",
-    dateLabel: "JUN 25",
+      "The judges have decided. Find out which teams have conquered the ultimate tech showdown.",
+    dateLabel: "JUN 21",
   },
   {
     id: 7,
     key: "uranus",
-    name: "EXPO DAY",
-    subtitle: "Innovation Fair",
+    name: "PRIZE DISTRIBUTION",
+    subtitle: "Awards Night",
     phase: "Phase 7",
-    date: "Jun 26",
+    date: "Jun 21",
     status: "active",
     glow: "#80e8f8",
     description:
-      "Showcase your projects to industry leaders, sponsors, and the public.",
-    dateLabel: "JUN 26",
+      "Celebrate the victories with trophies, cash prizes, and closing performances!",
+    dateLabel: "JUN 21",
   },
   {
     id: 8,
     key: "neptune",
-    name: "CEREMONY",
-    subtitle: "Awards Night",
+    name: "PRO NIGHT",
+    subtitle: "Celebration",
     phase: "Phase 8",
-    date: "Jun 27",
+    date: "Jun 21",
     status: "active",
     glow: "#5070ff",
     description:
-      "The grand closing ceremony with awards, prizes, and celebrations!",
-    dateLabel: "JUN 27",
+      "Wind down, connect with participants and industry leaders, and celebrate the successful conclusion of TechShastra.",
+    dateLabel: "JUN 21",
   },
 ];
 
@@ -332,18 +332,21 @@ function Planet({ planet, isActive, onClick, winW }) {
                 : "rgba(255,255,255,0.62)",
           }}
         />
-        {isActive && (
-          <div
-            className="timeline-planet-tag"
-            style={{
-              color: planet.glow,
-              fontSize: Math.round(11 * scale),
-              fontWeight: "bold",
-            }}
-          >
-            {planet.phase}
-          </div>
-        )}
+        <div
+          className="timeline-planet-tag"
+          style={{
+            color: isActive ? planet.glow : "#8d99a6",
+            fontSize: isActive
+              ? Math.round(16 * scale)
+              : Math.round(13 * scale),
+            fontWeight: "bold",
+            opacity: isActive ? 1 : 0.75,
+            marginBottom: 6,
+          }}
+        >
+          {planet.phase}
+        </div>
+
         <div
           className="timeline-planet-name"
           style={{
@@ -373,8 +376,10 @@ function Planet({ planet, isActive, onClick, winW }) {
         <div
           className="timeline-planet-mission"
           style={{
-            fontSize: isActive ? Math.round(11 * scale) : Math.round(9 * scale),
-            color: locked ? "#2b3037" : isActive ? planet.glow : "#4c5660",
+            fontSize: isActive
+              ? Math.round(15 * scale)
+              : Math.round(13 * scale),
+            color: locked ? "#2b3037" : isActive ? planet.glow : "#7c8b99",
             marginTop: isActive ? 6 : 4,
           }}
         >
@@ -414,7 +419,7 @@ function Line({ fromActive, glow }) {
 }
 
 export default function Timeline() {
-  const [activeId, setActiveId] = useState(4);
+  const [activeId, setActiveId] = useState(1);
   const [vis, setVis] = useState(true);
   const [winW, setWinW] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200

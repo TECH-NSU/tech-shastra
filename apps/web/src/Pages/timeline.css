@@ -316,14 +316,14 @@
   justify-content: center;
   min-height: 0;
   position: relative;
-  padding: 14px 0 10px;
+  padding: 6px 0 10px;
 }
 
 /* === Active info panel at top === */
 .timeline-info {
   text-align: center;
-  padding: 16px 20px 8px;
-  min-height: 96px;
+  padding: 10px 20px 4px;
+  min-height: 90px;
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;
@@ -606,9 +606,9 @@
 }
 .timeline-planet-tag {
   font-family: "Orbitron", monospace;
-  font-size: 7px;
-  letter-spacing: 4px;
-  opacity: 0.58;
+  font-size: 9px;
+  letter-spacing: 3px;
+  opacity: 0.7;
   margin-bottom: 7px;
 }
 .timeline-planet-name {
@@ -629,6 +629,7 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   font-weight: 600;
+  font-size: 13px;
 }
 .timeline-blink-dot {
   position: absolute;
@@ -814,8 +815,15 @@
     min-height: 90px;
     padding-top: 14px;
   }
+  .timeline-planet-tag {
+    font-size: 8px;
+    letter-spacing: 2.5px;
+  }
   .timeline-planet-subtitle {
     font-size: 10px;
+  }
+  .timeline-planet-mission {
+    font-size: 11px;
   }
   .timeline-line {
     width: 28px;
@@ -849,8 +857,8 @@
     right: 2px;
   }
   .timeline-info {
-    min-height: 60px;
-    padding: 6px 10px 2px;
+    min-height: 56px;
+    padding: 4px 10px 2px;
   }
   .timeline-info__distance {
     font-size: 7px;
@@ -891,7 +899,7 @@
     font-size: 11px;
   }
   .timeline-planet-label {
-    min-height: 76px;
+    min-height: 72px;
     padding-top: 10px;
   }
   .timeline-planet-label::before {
@@ -903,13 +911,20 @@
     margin-bottom: 6px;
   }
   .timeline-planet-tag {
-    font-size: 6px;
-    letter-spacing: 3px;
+    font-size: 7px;
+    letter-spacing: 2px;
     margin-bottom: 4px;
+  }
+  .timeline-planet-name {
+    letter-spacing: 1.2px !important;
   }
   .timeline-planet-subtitle {
     font-size: 9px;
     margin-top: 3px;
+  }
+  .timeline-planet-mission {
+    font-size: 10px;
+    letter-spacing: 1.5px;
   }
   .timeline-line {
     width: 18px;
@@ -932,7 +947,7 @@
     width: 100px;
   }
   .timeline-planet-wrap--inactive {
-    width: 60px;
+    width: 56px;
   }
   .timeline-aura {
     width: 110px;
@@ -944,6 +959,14 @@
   }
   .timeline-scroll {
     padding: 16px 14px 10px;
+  }
+  .timeline-planet-tag {
+    font-size: 6px;
+    letter-spacing: 1.5px;
+  }
+  .timeline-planet-mission {
+    font-size: 9px;
+    letter-spacing: 1px;
   }
   .timeline-line {
     width: 12px;
