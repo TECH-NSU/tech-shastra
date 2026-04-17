@@ -78,18 +78,23 @@
   gap: 16px;
 }
 
-.footer-brand-name {
-  font-family: "Heading-font", "Orbitron", sans-serif;
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
-  font-weight: 900;
-  background: linear-gradient(90deg, #ff3d8f, #ff6b3d);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  filter: drop-shadow(0 0 5px rgba(255, 80, 120, 0.3));
-  margin: 0;
+.footer-logo-container {
+  max-width: 180px;
+  margin-bottom: 8px;
+}
+
+.footer-logo {
+  width: 100%;
+  height: auto;
+  transition:
+    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    filter 0.3s ease;
+  filter: drop-shadow(0 0 5px rgba(255, 61, 143, 0.2));
+}
+
+.footer-logo:hover {
+  transform: scale(1.08) rotate(1deg);
+  filter: drop-shadow(0 0 15px rgba(255, 61, 143, 0.6)) brightness(1.1);
 }
 
 .footer-brand-desc {
@@ -164,6 +169,19 @@
   font-size: 1rem;
   flex-shrink: 0;
   margin-top: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.contact-svg {
+  width: 18px;
+  height: 18px;
+  stroke: #ff3d8f;
+  transition: stroke 0.3s ease;
+}
+
+.footer-contact-list li:hover .contact-svg {
+  stroke: #ff6b3d;
 }
 
 .footer-contact-list li a {

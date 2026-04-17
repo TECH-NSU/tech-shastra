@@ -80,7 +80,7 @@ Discover your true potential.`
         <div className="surface-texture"></div>
       </div>
 
-      <div className="hero-about">
+      <div className="hero-about" id="about">
         <div className="techshastra-about">
           <h1>About TechShastra</h1>
           <p>
@@ -104,7 +104,13 @@ Discover your true potential.`
 
       <div className="event-details"></div>
 
-      <Eventscroll />
+      <div id="events">
+        <Eventscroll />
+      </div>
+
+      <div id="schedule">
+        <Schedule />
+      </div>
 
       <div class="techfest-domains">
         <h1>{heading}</h1>
@@ -185,7 +191,9 @@ Discover your true potential.`);
 
       <div className="planetseacond"></div>
 
-      <FAQ />
+      <div id="faqs">
+        <FAQ />
+      </div>
 
       <Footer />
     </>

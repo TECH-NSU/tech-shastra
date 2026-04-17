@@ -208,17 +208,11 @@
 
 /* ── Answer ── */
 .faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition:
-    max-height 0.38s ease,
-    padding 0.38s ease;
-  padding: 0 24px;
+  padding: 0 24px 22px;
 }
 
-.faq-item.open .faq-answer {
-  max-height: 300px;
-  padding: 0 24px 22px;
+.faq-answer-wrapper {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .faq-answer p {

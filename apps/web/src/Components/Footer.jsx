@@ -1,6 +1,9 @@
 import "./Footer.css";
+import footerData from "../data/footer.json";
 
 export default function Footer() {
+  const { brand, navigation, contact, footerBottom } = footerData;
+
   return (
     <>
       {/* ── SEE YOU AT TECHSHASTRA banner ── */}
@@ -9,7 +12,7 @@ export default function Footer() {
           SEE YOU AT <span>TECHSHASTRA</span>
         </h2>
         <p className="footer-banner-sub">
-          Netaji Subhas University · Annual Technical Festival
+          Netaji Subhas University · A Techno Cultural Festival
         </p>
       </div>
 
@@ -20,38 +23,21 @@ export default function Footer() {
         <div className="footer-grid">
           {/* LEFT — Brand */}
           <div className="footer-brand">
-            {/* Logo placeholder — user will add logo later */}
-            <h3 className="footer-brand-name">TechShastra</h3>
-            <p className="footer-brand-desc">
-              NSU proudly presents TechShastra — the annual technical fest of
-              Netaji Subhas University, a platform for students to showcase
-              skills, creativity, and innovation across multiple domains of
-              technology.
-            </p>
+            <div className="footer-logo-container">
+              <img src={brand.logo} alt={brand.name} className="footer-logo" />
+            </div>
+            <p className="footer-brand-desc">{brand.description}</p>
           </div>
 
           {/* CENTER — Navigate */}
           <div>
             <h4 className="footer-col-title">Navigate</h4>
             <ul className="footer-nav-list">
-              <li>
-                <a href="#">About</a>
-              </li>
-              <li>
-                <a href="#">Events</a>
-              </li>
-              <li>
-                <a href="#">Schedule</a>
-              </li>
-              <li>
-                <a href="#">Registration</a>
-              </li>
-              <li>
-                <a href="#">Sponsors</a>
-              </li>
-              <li>
-                <a href="#">FAQs</a>
-              </li>
+              {navigation.map((item, idx) => (
+                <li key={idx}>
+                  <a href={item.links}>{item.name}</a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -62,19 +48,69 @@ export default function Footer() {
               <li>
                 <span className="contact-icon">📍</span>
                 <span>
-                  Pokhari, PO: Bhilai Pahari, PS: MGM,
-                  <br />
-                  Dist: Jamshedpur, Jharkhand – 831012
+                  {contact.address.split("\n").map((line, i) => (
+                    <span key={i}>
+                      {line}
+                      {i === 0 && <br />}
+                    </span>
+                  ))}
                 </span>
               </li>
               <li>
-                <span className="contact-icon">✉️</span>
-                <a href="mailto:techshastra@nsu.ac.in">techshastra@nsu.ac.in</a>
+                <span className="contact-icon">📧</span>
+                <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              </li>
+              <li>
+                <span className="contact-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="contact-svg"
+                  >
+                    <rect
+                      x="2"
+                      y="2"
+                      width="20"
+                      height="20"
+                      rx="5"
+                      ry="5"
+                    ></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </span>
+                <a
+                  href={`https://instagram.com/${contact.instagram.replace("@", "")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {contact.instagram}
+                </a>
+              </li>
+              <li>
+                <span className="contact-icon">📞</span>
+                <span>
+                  {contact.contactDetail.split("\n").map((line, i) => (
+                    <span key={i}>
+                      {line}
+                      {i !== contact.contactDetail.split("\n").length - 1 && (
+                        <br />
+                      )}
+                    </span>
+                  ))}
+                </span>
               </li>
               <li>
                 <span className="contact-icon">🌐</span>
-                <a href="https://nsuniv.ac.in" target="_blank" rel="noreferrer">
-                  nsuniv.ac.in
+                <a href={contact.website} target="_blank" rel="noreferrer">
+                  {contact.website.replace(/^https?:\/\//, "")}
                 </a>
               </li>
             </ul>
@@ -83,9 +119,10 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="footer-bottom">
-          <p>© 2026 TechShastra, NSU. All rights reserved.</p>
+          <p>{footerBottom.copyright}</p>
           <p>
-            Built with ❤️ by the <a href="#">TechShastra Dev Team</a>
+            Built with ❤️ by the{" "}
+            <a href={footerBottom.builtByLink}>{footerBottom.builtBy}</a>
           </p>
         </div>
       </footer>

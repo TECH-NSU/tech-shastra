@@ -132,10 +132,6 @@ export default function JourneyAhead() {
   const arcPath = `M ${startPt.x.toFixed(1)} ${startPt.y.toFixed(1)} A ${RX} ${RY} 0 0 1 ${endPt.x.toFixed(1)} ${endPt.y.toFixed(1)}`;
 
   // Tangent at end for arrowhead direction
-  const endRad = (endAngle * Math.PI) / 180;
-  const tx = -RX * Math.sin(endRad);
-  const ty = RY * Math.cos(endRad);
-  const tLen = Math.sqrt(tx * tx + ty * ty);
 
   function navigate(dir) {
     setFocusIdx((prev) => {
