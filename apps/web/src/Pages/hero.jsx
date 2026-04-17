@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../Styles/hero.css";
 import Schedule from "../Components/schedule";
 import Eventscroll from "../Components/eventsscroll";
@@ -8,6 +9,7 @@ import Footer from "../Components/Footer";
 import FAQ from "../Components/FAQ";
 
 export default function Hero() {
+  const navigate = useNavigate();
   const [text, setText] = useState(
     `Different domains, endless possibilities.
 Learn, build, and innovate.
@@ -66,6 +68,12 @@ Discover your true potential.`
 
         {/* Content */}
         <h1 ref={headingRef}>TechShastra</h1>
+
+        <div className="hero-cta-wrapper">
+          <button className="hero-cta-btn" onClick={() => navigate("/home")}>
+            Home
+          </button>
+        </div>
 
         <div className="heroes-container">
           {[1, 2, 3, 4].map((_, i) => (

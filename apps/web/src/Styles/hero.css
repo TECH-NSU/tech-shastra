@@ -125,6 +125,88 @@ html {
 }
 
 /* ========================
+   HERO CTA BUTTON
+======================== */
+.hero-cta-wrapper {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  text-align: center;
+}
+
+.hero-cta-btn {
+  font-family: "Heading-font", sans-serif;
+  font-size: clamp(0.7rem, 1.2vw, 1rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 255, 0.08) 0%,
+    rgba(0, 150, 255, 0.12) 100%
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(0, 255, 255, 0.5);
+  border-radius: 999px;
+  padding: 14px 42px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow:
+    0 0 15px rgba(0, 255, 255, 0.12),
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 0 12px rgba(0, 255, 255, 0.04);
+}
+
+.hero-cta-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.hero-cta-btn:hover::before {
+  left: 100%;
+}
+
+.hero-cta-btn:hover {
+  border-color: rgba(0, 255, 255, 0.9);
+  color: #00ffff;
+  transform: translateY(-2px);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 255, 0.15) 0%,
+    rgba(0, 150, 255, 0.2) 100%
+  );
+  box-shadow:
+    0 0 30px rgba(0, 255, 255, 0.3),
+    0 8px 30px rgba(0, 0, 0, 0.4),
+    inset 0 0 20px rgba(0, 255, 255, 0.08);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+.hero-cta-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 0 15px rgba(0, 255, 255, 0.2),
+    0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================
    ANIMATIONS
 ======================== */
 @keyframes zoomSoft {
@@ -571,6 +653,15 @@ html {
     width: 90%;
     transform: translate(-50%, -50%);
     text-align: center;
+  }
+
+  .hero-cta-wrapper {
+    top: 45%;
+  }
+
+  .hero-cta-btn {
+    font-size: clamp(0.6rem, 3vw, 0.85rem);
+    padding: 10px 28px;
   }
 
   .blue,
