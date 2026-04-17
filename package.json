@@ -18,5 +18,11 @@
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.1"
   },
-  "packageManager": "pnpm@10.25.0"
+  "packageManager": "pnpm@10.25.0",
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.0",
+    "styled-components": "^6.4.0",
+    "three": "^0.183.2"
+  }
 }

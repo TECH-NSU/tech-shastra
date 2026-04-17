@@ -1,5 +1,8 @@
 import { useState, useCallback } from "react";
 import "./eventsscroll.css";
+import { useRef, useLayoutEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const CHARACTERS = [
   { id: 1, name: "CODE RELAY ", comingSoon: false, img: "/redimg.webp" },
@@ -33,6 +36,78 @@ const EMBERS = Array.from({ length: 18 }, (_, i) => ({
 }));
 
 export default function Eventscroll() {
+  const sectionRef = useRef();
+  const leftRef = useRef();
+  const rightRef = useRef();
+
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 1%",
+        toggleActions: "play reverse play reverse", // ✅ play ONLY once
+      },
+    });
+
+    // LEFT → from left to right
+    tl.fromTo(
+      leftRef.current,
+      {
+        x: -150,
+        opacity: 0,
+      },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: "power3.out",
+      }
+    )
+
+      // RIGHT → from right to left
+      .fromTo(
+        rightRef.current,
+        {
+          x: 150,
+          opacity: 0,
+        },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+        },
+        "-=0.8"
+      );
+
+    gsap.fromTo(
+      sectionRef.current,
+      {
+        opacity: 0,
+        scale: 0.75,
+        z: -400,
+        filter: "blur(10px)",
+        transformOrigin: "center center",
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        z: 0,
+        filter: "blur(0px)",
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          end: "top 20%",
+          scrub: 1, // 👈 THIS makes it follow scroll (key for depth feel)
+        },
+      }
+    );
+  }, []);
+
   const [active, setActive] = useState(0);
   const [animKey, setAnimKey] = useState(0);
   const total = CHARACTERS.length;
@@ -57,15 +132,15 @@ export default function Eventscroll() {
 
   return (
     <>
-      <section className="presale-section">
-        <div className="purple-fog-top"></div>
+      <section className="presale-section" ref={sectionRef}>
+        <div className="top-fog-overlay"></div>
 
         <div className="nebula" aria-hidden="true" />
         <div className="scanlines" aria-hidden="true" />
 
         <div className="presale-inner">
           {/* ── LEFT COPY ── */}
-          <div className="presale-left">
+          <div className="presale-left" ref={leftRef}>
             <p className="presale-label">Take a look</p>
             <h1 className="presale-title">
               PARTICIPATE <br />
@@ -83,7 +158,7 @@ export default function Eventscroll() {
           </div>
 
           {/* ── RIGHT CAROUSEL ── */}
-          <div className="carousel-wrapper">
+          <div className="carousel-wrapper" ref={rightRef}>
             <div className="card-row">
               {/* Left ghost */}
               <div

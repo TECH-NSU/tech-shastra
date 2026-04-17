@@ -10,6 +10,7 @@
 
 /* ── Section shell ───────────────────────────────────────────────── */
 .presale-section {
+  perspective: 1200px;
   position: relative;
   width: 100%;
   min-height: 180vh;
